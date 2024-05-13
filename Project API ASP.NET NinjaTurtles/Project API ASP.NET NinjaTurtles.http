@@ -1,0 +1,6 @@
+@Project_API_ASP.NET_NinjaTurtles_HostAddress = http://localhost:5143
+
+GET {{Project_API_ASP.NET_NinjaTurtles_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
