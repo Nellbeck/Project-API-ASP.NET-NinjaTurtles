@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.VisualBasic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Project_ASP.NET_NinjaTurtles.Models
@@ -17,7 +18,8 @@ namespace Project_ASP.NET_NinjaTurtles.Models
         [StringLength(20)]
         public string CustomerPhone { get; set; }
         [Required]
-        public DateOnly CustomerBirthDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/YY}", ApplyFormatInEditMode = true)]
+        public DateTime CustomerBirthDate { get; set; }
         [Required]
         [StringLength(50)]
         public string CustomerAddress {  get; set; }
