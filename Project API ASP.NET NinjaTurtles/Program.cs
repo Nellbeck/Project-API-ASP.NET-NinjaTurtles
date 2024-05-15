@@ -55,7 +55,7 @@ namespace Project_API_ASP.NET_NinjaTurtles
             });
 
             //Get an customer by id
-            app.MapGet("/customers/{id:int}", async (int id, ApplicationDbContext context) =>
+            app.MapGet("/customers/{id:Guid}", async (Guid id, ApplicationDbContext context) =>
             {
                 var customer = await context.Customers.FindAsync(id);
 
@@ -67,7 +67,7 @@ namespace Project_API_ASP.NET_NinjaTurtles
             });
 
             //Edit an customer
-            app.MapPut("/customers/{id:int}", async (int id, Customer updatedCustomer, ApplicationDbContext context) =>
+            app.MapPut("/customers/{id:Guid}", async (Guid id, Customer updatedCustomer, ApplicationDbContext context) =>
             {
                 var customer = await context.Customers.FindAsync(id);
 
@@ -88,7 +88,7 @@ namespace Project_API_ASP.NET_NinjaTurtles
                 }
             });
             //Delete an customer
-            app.MapDelete("/customers/{id:int}", async (int id, ApplicationDbContext context) =>
+            app.MapDelete("/customers/{id:Guid}", async (Guid id, ApplicationDbContext context) =>
             {
                 var customer = await context.Customers.FindAsync(id);
 
@@ -124,11 +124,11 @@ namespace Project_API_ASP.NET_NinjaTurtles
             {
                 context.Products.Add(product);
                 await context.SaveChangesAsync();
-                return Results.Created($"/customers/{product.ProductId}", product);
+                return Results.Created($"/products/{product.ProductId}", product);
             });
 
             //Get an product by id
-            app.MapGet("/products/{id:int}", async (int id, ApplicationDbContext context) =>
+            app.MapGet("/products/{id:Guid}", async (Guid id, ApplicationDbContext context) =>
             {
                 var product = await context.Products.FindAsync(id);
 
@@ -140,7 +140,7 @@ namespace Project_API_ASP.NET_NinjaTurtles
             });
 
             //Edit an product
-            app.MapPut("/products/{id:int}", async (int id, Product updatedProduct, ApplicationDbContext context) =>
+            app.MapPut("/products/{id:Guid}", async (Guid id, Product updatedProduct, ApplicationDbContext context) =>
             {
                 var product = await context.Products.FindAsync(id);
 
@@ -160,7 +160,7 @@ namespace Project_API_ASP.NET_NinjaTurtles
                 }
             });
             //Delete an product
-            app.MapDelete("/products/{id:int}", async (int id, ApplicationDbContext context) =>
+            app.MapDelete("/products/{id:Guid}", async (Guid id, ApplicationDbContext context) =>
             {
                 var product = await context.Products.FindAsync(id);
 
@@ -172,7 +172,7 @@ namespace Project_API_ASP.NET_NinjaTurtles
                 {
                     context.Products.Remove(product);
                     await context.SaveChangesAsync();
-                    return Results.Ok($"Customer with ID: {id} deleted");
+                    return Results.Ok($"Product with ID: {id} deleted");
                 }
             });
 
