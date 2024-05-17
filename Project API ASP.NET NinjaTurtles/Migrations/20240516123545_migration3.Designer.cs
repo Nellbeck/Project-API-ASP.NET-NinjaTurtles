@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_API_ASP.NET_NinjaTurtles.Data;
 
@@ -11,9 +12,11 @@ using Project_API_ASP.NET_NinjaTurtles.Data;
 namespace Project_API_ASP.NET_NinjaTurtles.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240516123545_migration3")]
+    partial class migration3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,10 +83,10 @@ namespace Project_API_ASP.NET_NinjaTurtles.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("FKCustomerId")
+                    b.Property<Guid>("FKCustomerId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("FKProductId")
+                    b.Property<Guid>("FKProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("OrderDate")
@@ -142,7 +145,9 @@ namespace Project_API_ASP.NET_NinjaTurtles.Migrations
                 {
                     b.HasOne("Project_ASP.NET_NinjaTurtles.Models.Customer", "Customer")
                         .WithMany("Orders")
-                        .HasForeignKey("FKCustomerId");
+                        .HasForeignKey("FKCustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Customer");
                 });

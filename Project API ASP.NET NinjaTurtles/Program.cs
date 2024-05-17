@@ -176,6 +176,76 @@ namespace Project_API_ASP.NET_NinjaTurtles
                 }
             });
 
+
+            /////////////////////////////////////
+            //////////// Orders ///////////////
+            /////////////////////////////////////
+
+
+            //Return all orders
+            app.MapGet("/orders", async (ApplicationDbContext context) =>
+            {
+                var orders = await context.Orders.ToListAsync();
+                if (orders == null || !orders.Any())
+                {
+                    return Results.NotFound("Didn't find any order");
+                }
+                return Results.Ok(orders);
+            });
+
+            // Create a orders
+            app.MapPost("/orders", async (Order order, ApplicationDbContext context) =>
+            {
+                context.Orders.Add(order);
+                await context.SaveChangesAsync();
+                return Results.Created($"/orders/{order.OrderId}", order);
+            });
+
+            //Get an order by id
+            app.MapGet("/orders/{id:Guid}", async (Guid id, ApplicationDbContext context) =>
+            {
+                var order = await context.Orders.FindAsync(id);
+
+                if (order == null)
+                {
+                    return Results.NotFound("Did not find any order with that Id.");
+                }
+                return Results.Ok(order);
+            });
+
+            //Edit an product
+            app.MapPut("/orders/{id:Guid}", async (Guid id, Order updateOrder, ApplicationDbContext context) =>
+            {
+                var order = await context.Orders.FindAsync(id);
+
+                if (order == null)
+                {
+                    return Results.NotFound("Did not find any order with that Id.");
+                }
+                else
+                {
+
+
+                    await context.SaveChangesAsync();
+                    return Results.Ok(order);
+                }
+            });
+            //Delete an product
+            app.MapDelete("/orders/{id:Guid}", async (Guid id, ApplicationDbContext context) =>
+            {
+                var order = await context.Orders.FindAsync(id);
+
+                if (order == null)
+                {
+                    return Results.NotFound("Did not find any order with that Id.");
+                }
+                else
+                {
+                    context.Orders.Remove(order);
+                    await context.SaveChangesAsync();
+                    return Results.Ok($"Order with ID: {id} deleted");
+                }
+            });
             app.Run();
         }
     }
