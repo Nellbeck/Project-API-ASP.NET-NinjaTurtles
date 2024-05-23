@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Project_API_ASP.NET_NinjaTurtles.Models;
 using Project_ASP.NET_NinjaTurtles.Models;
 
 namespace Project_API_ASP.NET_NinjaTurtles.Data
@@ -12,5 +13,6 @@ namespace Project_API_ASP.NET_NinjaTurtles.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<OrderProduct> OrderProducts { get; set; }
     }
 }

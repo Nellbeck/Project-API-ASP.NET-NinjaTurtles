@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_API_ASP.NET_NinjaTurtles.Data;
 
@@ -11,9 +12,11 @@ using Project_API_ASP.NET_NinjaTurtles.Data;
 namespace Project_API_ASP.NET_NinjaTurtles.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240520124914_103")]
+    partial class _103
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -159,7 +162,7 @@ namespace Project_API_ASP.NET_NinjaTurtles.Migrations
             modelBuilder.Entity("Project_API_ASP.NET_NinjaTurtles.Models.OrderProduct", b =>
                 {
                     b.HasOne("Project_ASP.NET_NinjaTurtles.Models.Order", "Order")
-                        .WithMany("OrderProduct")
+                        .WithMany("OrderProducts")
                         .HasForeignKey("FKOrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -193,7 +196,7 @@ namespace Project_API_ASP.NET_NinjaTurtles.Migrations
 
             modelBuilder.Entity("Project_ASP.NET_NinjaTurtles.Models.Order", b =>
                 {
-                    b.Navigation("OrderProduct");
+                    b.Navigation("OrderProducts");
                 });
 
             modelBuilder.Entity("Project_ASP.NET_NinjaTurtles.Models.Product", b =>
