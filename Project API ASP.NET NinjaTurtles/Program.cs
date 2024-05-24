@@ -1,7 +1,9 @@
 
 using Microsoft.EntityFrameworkCore;
 using Project_API_ASP.NET_NinjaTurtles.Data;
+using Project_API_ASP.NET_NinjaTurtles.Models;
 using Project_ASP.NET_NinjaTurtles.Models;
+using System.Text.Json.Serialization;
 
 namespace Project_API_ASP.NET_NinjaTurtles
 {
@@ -14,6 +16,8 @@ namespace Project_API_ASP.NET_NinjaTurtles
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString));
+
+            builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
             // Add services to the container.
             builder.Services.AddAuthorization();
@@ -185,7 +189,7 @@ namespace Project_API_ASP.NET_NinjaTurtles
             //Return all orders
             app.MapGet("/orders", async (ApplicationDbContext context) =>
             {
-                var orders = await context.Orders.ToListAsync();
+                var orders = await context.Orders.Include(x => x.Customer).Include(x => x.Products).ToListAsync();
                 if (orders == null || !orders.Any())
                 {
                     return Results.NotFound("Didn't find any order");
@@ -193,9 +197,18 @@ namespace Project_API_ASP.NET_NinjaTurtles
                 return Results.Ok(orders);
             });
 
+            app.MapPost("/orderProducts", async (OrderProduct order, ApplicationDbContext context) =>
+            {
+
+                context.OrderProducts.Add(order);
+                await context.SaveChangesAsync();
+                return Results.Created($"/orders/{order.OrderProductId}", order);
+            });
+
             // Create a orders
             app.MapPost("/orders", async (Order order, ApplicationDbContext context) =>
             {
+
                 context.Orders.Add(order);
                 await context.SaveChangesAsync();
                 return Results.Created($"/orders/{order.OrderId}", order);
@@ -246,7 +259,15 @@ namespace Project_API_ASP.NET_NinjaTurtles
                     return Results.Ok($"Order with ID: {id} deleted");
                 }
             });
+
+            /////////////////////////////////////
+            //////////// Orders ///////////////
+            /////////////////////////////////////
+
+
+
             app.Run();
+
         }
     }
 }

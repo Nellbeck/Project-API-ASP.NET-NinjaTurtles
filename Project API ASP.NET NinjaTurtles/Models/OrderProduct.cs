@@ -1,10 +1,11 @@
 ﻿using Project_ASP.NET_NinjaTurtles.Models;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Project_API_ASP.NET_NinjaTurtles.Models
 {
     public class OrderProduct
+
     {
         [Key]
         public Guid OrderProductId { get; set; }
@@ -16,5 +17,6 @@ namespace Project_API_ASP.NET_NinjaTurtles.Models
         public Order? Order { get; set; }
         [ForeignKey("Order")]
         public Guid FKOrderId { get; set; }
+
     }
 }
