@@ -1,7 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
 using Project_API_ASP.NET_NinjaTurtles.Data;
-using Project_API_ASP.NET_NinjaTurtles.Models;
 using Project_ASP.NET_NinjaTurtles.Models;
 using System.Text.Json.Serialization;
 
@@ -118,7 +117,7 @@ namespace Project_API_ASP.NET_NinjaTurtles
                 var products = await context.Products.ToListAsync();
                 if (products == null || !products.Any())
                 {
-                    return Results.NotFound("Didn't find any customer");
+                    return Results.NotFound("Didn't find any product");
                 }
                 return Results.Ok(products);
             });
@@ -189,20 +188,12 @@ namespace Project_API_ASP.NET_NinjaTurtles
             //Return all orders
             app.MapGet("/orders", async (ApplicationDbContext context) =>
             {
-                var orders = await context.Orders.Include(x => x.Customer).Include(x => x.Products).ToListAsync();
+                var orders = await context.Orders.Include(c => c.Customer).Include(p => p.Products).ToListAsync();
                 if (orders == null || !orders.Any())
                 {
                     return Results.NotFound("Didn't find any order");
                 }
                 return Results.Ok(orders);
-            });
-
-            app.MapPost("/orderProducts", async (OrderProduct order, ApplicationDbContext context) =>
-            {
-
-                context.OrderProducts.Add(order);
-                await context.SaveChangesAsync();
-                return Results.Created($"/orders/{order.OrderProductId}", order);
             });
 
             // Create a orders

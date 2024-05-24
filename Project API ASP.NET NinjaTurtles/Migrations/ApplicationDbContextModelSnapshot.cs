@@ -22,41 +22,20 @@ namespace Project_API_ASP.NET_NinjaTurtles.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("OrderProduct", b =>
-                {
-                    b.Property<Guid>("OrdersOrderId")
-                        .HasColumnType("uniqueidentifier");
+            //modelBuilder.Entity("OrderProduct", b =>
+            //    {
+            //        b.Property<Guid>("OrdersOrderId")
+            //            .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ProductsProductId")
-                        .HasColumnType("uniqueidentifier");
+            //        b.Property<Guid>("ProductsProductId")
+            //            .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("OrdersOrderId", "ProductsProductId");
+            //        b.HasKey("OrdersOrderId", "ProductsProductId");
 
-                    b.HasIndex("ProductsProductId");
+            //        b.HasIndex("ProductsProductId");
 
-                    b.ToTable("OrderProduct");
-                });
-
-            modelBuilder.Entity("Project_API_ASP.NET_NinjaTurtles.Models.OrderProduct", b =>
-                {
-                    b.Property<Guid>("OrderProductId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("FKOrderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("FKProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("OrderProductId");
-
-                    b.HasIndex("FKOrderId");
-
-                    b.HasIndex("FKProductId");
-
-                    b.ToTable("OrderProducts");
-                });
+            //        b.ToTable("OrderProduct");
+            //    });
 
             modelBuilder.Entity("Project_ASP.NET_NinjaTurtles.Models.Customer", b =>
                 {
@@ -102,6 +81,9 @@ namespace Project_API_ASP.NET_NinjaTurtles.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("FKCustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("FKProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("OrderDate")
@@ -156,25 +138,6 @@ namespace Project_API_ASP.NET_NinjaTurtles.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Project_API_ASP.NET_NinjaTurtles.Models.OrderProduct", b =>
-                {
-                    b.HasOne("Project_ASP.NET_NinjaTurtles.Models.Order", "Order")
-                        .WithMany("OrderProduct")
-                        .HasForeignKey("FKOrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Project_ASP.NET_NinjaTurtles.Models.Product", "Product")
-                        .WithMany("OrderProduct")
-                        .HasForeignKey("FKProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("Project_ASP.NET_NinjaTurtles.Models.Order", b =>
                 {
                     b.HasOne("Project_ASP.NET_NinjaTurtles.Models.Customer", "Customer")
@@ -189,16 +152,6 @@ namespace Project_API_ASP.NET_NinjaTurtles.Migrations
             modelBuilder.Entity("Project_ASP.NET_NinjaTurtles.Models.Customer", b =>
                 {
                     b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("Project_ASP.NET_NinjaTurtles.Models.Order", b =>
-                {
-                    b.Navigation("OrderProduct");
-                });
-
-            modelBuilder.Entity("Project_ASP.NET_NinjaTurtles.Models.Product", b =>
-                {
-                    b.Navigation("OrderProduct");
                 });
 #pragma warning restore 612, 618
         }

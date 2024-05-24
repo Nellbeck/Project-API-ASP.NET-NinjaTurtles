@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Project_API_ASP.NET_NinjaTurtles.Migrations
 {
     /// <inheritdoc />
-    public partial class firstmigration : Migration
+    public partial class Initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,10 +49,8 @@ namespace Project_API_ASP.NET_NinjaTurtles.Migrations
                 {
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FKCustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FKProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductsProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OrderQuantity = table.Column<int>(type: "int", nullable: false)
+                    FKProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,36 +61,57 @@ namespace Project_API_ASP.NET_NinjaTurtles.Migrations
                         principalTable: "Customers",
                         principalColumn: "CustomerId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Orders_Products_ProductsProductId",
-                        column: x => x.ProductsProductId,
-                        principalTable: "Products",
-                        principalColumn: "ProductId",
-                        onDelete: ReferentialAction.Cascade);
                 });
+
+            //migrationBuilder.CreateTable(
+            //    name: "OrderProduct",
+            //    columns: table => new
+            //    {
+            //        OrdersOrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+            //        ProductsProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+            //    },
+            //    constraints: table =>
+            //    {
+            //        table.PrimaryKey("PK_OrderProduct", x => new { x.OrdersOrderId, x.ProductsProductId });
+            //        table.ForeignKey(
+            //            name: "FK_OrderProduct_Orders_OrdersOrderId",
+            //            column: x => x.OrdersOrderId,
+            //            principalTable: "Orders",
+            //            principalColumn: "OrderId",
+            //            onDelete: ReferentialAction.Cascade);
+            //        table.ForeignKey(
+            //            name: "FK_OrderProduct_Products_ProductsProductId",
+            //            column: x => x.ProductsProductId,
+            //            principalTable: "Products",
+            //            principalColumn: "ProductId",
+            //            onDelete: ReferentialAction.Cascade);
+            //    });
+
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_OrderProduct_ProductsProductId",
+            //    table: "OrderProduct",
+            //    column: "ProductsProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_FKCustomerId",
                 table: "Orders",
                 column: "FKCustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_ProductsProductId",
-                table: "Orders",
-                column: "ProductsProductId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            //migrationBuilder.DropTable(
+            //    name: "OrderProduct");
+
             migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Customers");
+                name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Customers");
         }
     }
 }

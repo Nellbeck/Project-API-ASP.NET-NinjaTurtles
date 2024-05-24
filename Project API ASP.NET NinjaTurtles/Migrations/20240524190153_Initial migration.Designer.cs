@@ -12,8 +12,8 @@ using Project_API_ASP.NET_NinjaTurtles.Data;
 namespace Project_API_ASP.NET_NinjaTurtles.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240516121928_removedOrderQuantity")]
-    partial class removedOrderQuantity
+    [Migration("20240524190153_Initial migration")]
+    partial class Initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,15 +27,15 @@ namespace Project_API_ASP.NET_NinjaTurtles.Migrations
 
             modelBuilder.Entity("OrderProduct", b =>
                 {
-                    b.Property<Guid>("Product")
+                    b.Property<Guid>("OrdersOrderId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ProductId")
+                    b.Property<Guid>("ProductsProductId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Product", "ProductId");
+                    b.HasKey("OrdersOrderId", "ProductsProductId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductsProductId");
 
                     b.ToTable("OrderProduct");
                 });
@@ -86,6 +86,9 @@ namespace Project_API_ASP.NET_NinjaTurtles.Migrations
                     b.Property<Guid>("FKCustomerId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("FKProductId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
@@ -127,13 +130,13 @@ namespace Project_API_ASP.NET_NinjaTurtles.Migrations
                 {
                     b.HasOne("Project_ASP.NET_NinjaTurtles.Models.Order", null)
                         .WithMany()
-                        .HasForeignKey("Product")
+                        .HasForeignKey("OrdersOrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Project_ASP.NET_NinjaTurtles.Models.Product", null)
                         .WithMany()
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("ProductsProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -1,5 +1,4 @@
-﻿using Project_API_ASP.NET_NinjaTurtles.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -14,11 +13,10 @@ namespace Project_ASP.NET_NinjaTurtles.Models
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Customer? Customer { get; set; }
         public DateTime OrderDate { get; set; }
+        [ForeignKey("Product")]
+        public Guid FKProductId { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public ICollection<Product>? Products { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public ICollection<OrderProduct>? OrderProduct { get; set; }
-
 
     }
 }
