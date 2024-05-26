@@ -188,7 +188,7 @@ namespace Project_API_ASP.NET_NinjaTurtles
             //Return all orders
             app.MapGet("/orders", async (ApplicationDbContext context) =>
             {
-                var orders = await context.Orders.Include(c => c.Customer).Include(p => p.Products).ToListAsync();
+                var orders = await context.Orders.Include(c => c.Customer).Include(p => p.Product).ToListAsync();
                 if (orders == null || !orders.Any())
                 {
                     return Results.NotFound("Didn't find any order");
