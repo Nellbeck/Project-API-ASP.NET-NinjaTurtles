@@ -16,7 +16,7 @@ namespace Project_ASP.NET_NinjaTurtles.Models
         [ForeignKey("Product")]
         public Guid FKProductId { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public ICollection<Product>? Products { get; set; }
+        public Product? Product { get; set; }
 
     }
 }

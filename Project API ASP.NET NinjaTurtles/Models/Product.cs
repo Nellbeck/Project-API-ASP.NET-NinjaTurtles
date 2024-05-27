@@ -18,6 +18,7 @@ namespace Project_ASP.NET_NinjaTurtles.Models
         public int ProductQuantity { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public ICollection<Order>? Orders { get; set; }
+        public string? ImgPath { get; set; }
 
     }
 }
