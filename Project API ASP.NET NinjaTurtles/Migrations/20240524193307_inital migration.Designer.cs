@@ -12,8 +12,8 @@ using Project_API_ASP.NET_NinjaTurtles.Data;
 namespace Project_API_ASP.NET_NinjaTurtles.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240524190153_Initial migration")]
-    partial class Initialmigration
+    [Migration("20240524193307_inital migration")]
+    partial class initalmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,21 +24,6 @@ namespace Project_API_ASP.NET_NinjaTurtles.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("OrderProduct", b =>
-                {
-                    b.Property<Guid>("OrdersOrderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProductsProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("OrdersOrderId", "ProductsProductId");
-
-                    b.HasIndex("ProductsProductId");
-
-                    b.ToTable("OrderProduct");
-                });
 
             modelBuilder.Entity("Project_ASP.NET_NinjaTurtles.Models.Customer", b =>
                 {
@@ -92,9 +77,14 @@ namespace Project_API_ASP.NET_NinjaTurtles.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("ProductsProductId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("OrderId");
 
                     b.HasIndex("FKCustomerId");
+
+                    b.HasIndex("ProductsProductId");
 
                     b.ToTable("Orders");
                 });
@@ -126,21 +116,6 @@ namespace Project_API_ASP.NET_NinjaTurtles.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("OrderProduct", b =>
-                {
-                    b.HasOne("Project_ASP.NET_NinjaTurtles.Models.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrdersOrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Project_ASP.NET_NinjaTurtles.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Project_ASP.NET_NinjaTurtles.Models.Order", b =>
                 {
                     b.HasOne("Project_ASP.NET_NinjaTurtles.Models.Customer", "Customer")
@@ -149,10 +124,21 @@ namespace Project_API_ASP.NET_NinjaTurtles.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Project_ASP.NET_NinjaTurtles.Models.Product", "Products")
+                        .WithMany("Orders")
+                        .HasForeignKey("ProductsProductId");
+
                     b.Navigation("Customer");
+
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Project_ASP.NET_NinjaTurtles.Models.Customer", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("Project_ASP.NET_NinjaTurtles.Models.Product", b =>
                 {
                     b.Navigation("Orders");
                 });

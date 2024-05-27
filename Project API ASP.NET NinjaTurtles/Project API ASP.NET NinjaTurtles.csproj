@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Project_API_ASP.NET_NinjaTurtles</RootNamespace>
+    <UserSecretsId>df4e69ae-4f3e-4bfc-9863-22c661fb6c4d</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
